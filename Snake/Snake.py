@@ -5,7 +5,6 @@ import threading
 
 from time import sleep
 
-
 snkae_length=1
 
 #맵크기
@@ -18,23 +17,40 @@ start_position = int(filed_size/2)
 snake_y=start_position
 snake_x=start_position
 
+#스레드 키 입력 변수
+key=None
+
+game_speed = 0.5
+star_count = 0
+
 def printMap(field):
     for i in field:
         for j in i:
             print(j, end=" ")
         print()
-
-
-field = [["□" for col in range(filed_size)] for row in range(filed_size)]
-os.system('cls')
-printMap(field)
-
+    print("x:{1}, y:{0} ".format(snake_y,snake_x))
+    print(star_count)
+    print("q나 r 누를 시 초기화")
 
 #게임시작
-os.system('cls')
-field[start_position][start_position] = "■"
-printMap(field)
-print("========PushAnyArrowKey========")
+def initGame():
+    global field
+    global snake_x
+    global snake_y
+    global star_count
+    
+    field = [["□" for col in range(filed_size)] for row in range(filed_size)]
+    os.system('cls')
+    printMap(field)
+
+    snake_x=start_position
+    snake_y=start_position
+    star_count=0
+
+    os.system('cls')
+    field[start_position][start_position] = "■"
+    printMap(field)
+    print("========PushAnyArrowKey========")
 
 def moveRight():
     os.system('cls')
@@ -72,43 +88,86 @@ def moveDown():
     printMap(field)
     sleep(0.1)
 
-#포인트 생성함수
-def getPoint():
-    pointX = random.randrange(0,filed_size)
-    pointY = random.randrange(0,filed_size)
+#별 생성함수
+def generateStar():
+    star_x = random.randrange(0,filed_size)
+    star_y = random.randrange(0,filed_size)
     
-    #포인트 생성 위치에 오브젝트 존재할 시 다른 곳으로 되돌림
-    if(field[pointY][pointX] in ["■", "★"]):
-        while field[pointY][pointX] in ["■", "★"]:
-            pointX = random.randrange(0,filed_size)
-            pointY = random.randrange(0,filed_size)
-        field[pointY][pointX] = "★"
+    #별 생성 위치에 오브젝트 존재할 시 다른 곳으로 출력
+    if(field[star_y][star_x] in ["■", "★"]):
+        while field[star_y][star_x] in ["■", "★"]:
+            star_x = random.randrange(0,filed_size)
+            star_y = random.randrange(0,filed_size)
+        field[star_y][star_x] = "★"
         printMap(field)
     else:
-        field[pointY][pointX] = "★"
+        field[star_y][star_x] = "★"
         printMap(field)
+
+# def getStar():
+#     if field[snake_y][snake_x]=="□":
+#         input("stop")
         
 def controll():
-    count=0
     while True:
-            if keyboard.is_pressed('up'):
+        global star_count
+
+        if key=='up':
+            while (key=='up'):
+                star_count+=1
                 moveUp()
-                count+=1
-            elif keyboard.is_pressed('down'):
+                sleep(game_speed)
+                if star_count>=4:
+                    generateStar()
+                    star_count=0
+        elif key=='down':
+            while (key=='down'):
+                star_count+=1
                 moveDown()
-                count+=1
-            elif keyboard.is_pressed('left'):
+                sleep(game_speed)
+                if star_count>=4:
+                    generateStar()
+                    star_count=0
+        elif key=='left':
+            while (key=='left'):
+                star_count+=1
                 moveLeft()
-                count+=1
-            elif keyboard.is_pressed('right'):
+                sleep(game_speed)
+                if star_count>=4:
+                    generateStar()
+                    star_count=0
+        elif key=='right':
+            while (key=='right'):
+                star_count+=1
                 moveRight()
-                count+=1
-
-            if(count==5):
-                getPoint()
-                count=0
-
-controll()
+                sleep(game_speed)
+                if star_count>=4:
+                    generateStar()
+                    star_count=0
+        #게임초기화
+        elif key=='q' or key=='r':
+            break
+    game()
             
+def readKey():
+    global key
+    key=keyboard.read_key()
+    sleep(0.1)
+    threading.Thread(target=readKey,daemon=True).start()
+
+def game():
+    try:
+        initGame()
+        readKey()
+        controll()
+        getStar()
+    except:
+        printMap(field)
+        print("***********GAMEOVER***************")
+        a = input("다시 하려면 q나 r 입력, 다른 거 입력하면 종료")
+        if a in ('q','r'):
+            game()
+
+game()
 
       
