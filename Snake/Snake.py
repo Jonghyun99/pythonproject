@@ -20,7 +20,7 @@ snake_position=[[snake_y,snake_x],[snake_y,snake_x-1],[snake_y,snake_x-2]]
 #스레드 키 입력 변수
 key=None
 
-game_speed = 0.5
+game_speed = 0.2
 star_count = 0
 
 #별 생성 주기
@@ -128,8 +128,7 @@ def generateStar():
         star_list.append([star_y,star_x])
 
 def getStar():
-    for i in star_list:
-        if i == snake_position[0]:
+        if snake_position[0] in star_list:
             grow()
             star_list.remove(snake_position[0])
         
@@ -140,6 +139,7 @@ def controll():
             while (key=='up'):
                 star_count+=1
                 moveUp()
+                getStar()
                 sleep(game_speed)
                 if star_count>=star_gen_cycle:
                     generateStar()
@@ -148,6 +148,7 @@ def controll():
             while (key=='down'):
                 star_count+=1
                 moveDown()
+                getStar()
                 sleep(game_speed)
                 if star_count>=star_gen_cycle:
                     generateStar()
@@ -156,6 +157,7 @@ def controll():
             while (key=='left'):
                 star_count+=1
                 moveLeft()
+                getStar()
                 sleep(game_speed)
                 if star_count>=star_gen_cycle:
                     generateStar()
@@ -164,6 +166,7 @@ def controll():
             while (key=='right'):
                 star_count+=1
                 moveRight()
+                getStar()
                 sleep(game_speed)
                 if star_count>=star_gen_cycle:
                     generateStar()
@@ -171,7 +174,6 @@ def controll():
         #게임초기화
         elif key=='q' or key=='r':
             break
-        getStar()
     game()
             
 def readKey():
