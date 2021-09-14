@@ -15,7 +15,7 @@ start_position = int(filed_size/2)
 snake_y=start_position
 snake_x=start_position
 
-snake_position=[[snake_y,snake_x],[snake_y,snake_x-1],[snake_y,snake_x-2]]
+snake_position=[[snake_y,snake_x]]
     
 #스레드 키 입력 변수
 key=None
@@ -51,8 +51,10 @@ def initGame():
 
     snake_x=start_position
     snake_y=start_position
-    # snake_position=[[snake_y,snake_x],[snake_y,snake_x-1],[snake_y,snake_x-2]]
+    snake_position=[[snake_y,snake_x],[snake_y,snake_x-1],[snake_y,snake_x-2]]
     star_count=0
+
+    snake_position.append([snake_y,snake_x-3])
 
     os.system('cls')
     for i in snake_position:
@@ -62,42 +64,34 @@ def initGame():
 
 def moveUp():
     os.system('cls')
-    field[snake_position[2][0]][snake_position[2][1]] = "□"
-    snake_position[2] = snake_position[1]
-    snake_position[1] = snake_position[0]
-    snake_position[0] = [snake_position[0][0]-1,snake_position[0][1]]
-    for i in snake_position:
-        field[i[0]][i[1]] = "■"
+    global snake_y
+    field[snake_y][snake_x] = "□"
+    snake_y -=1
+    field[snake_y][snake_x] = "■"
     printMap(field)
 
 def moveDown():
     os.system('cls')
-    field[snake_position[2][0]][snake_position[2][1]] = "□"
-    snake_position[2] = snake_position[1]
-    snake_position[1] = snake_position[0]
-    snake_position[0] = [snake_position[0][0]+1,snake_position[0][1]]
-    for i in snake_position:
-        field[i[0]][i[1]] = "■"
+    global snake_y
+    field[snake_y][snake_x] = "□"
+    snake_y +=1
+    field[snake_y][snake_x] = "■"
     printMap(field)
 
 def moveLeft():
     os.system('cls')
-    field[snake_position[2][0]][snake_position[2][1]] = "□"
-    snake_position[2] = snake_position[1]
-    snake_position[1] = snake_position[0]
-    snake_position[0] = [snake_position[0][0],snake_position[0][1]-1]
-    for i in snake_position:
-        field[i[0]][i[1]] = "■"
+    global snake_x
+    field[snake_y][snake_x] = "□"
+    snake_x -=1
+    field[snake_y][snake_x] = "■"
     printMap(field)
 
 def moveRight():
     os.system('cls')
-    field[snake_position[2][0]][snake_position[2][1]] = "□"
-    snake_position[2] = snake_position[1]
-    snake_position[1] = snake_position[0]
-    snake_position[0] = [snake_position[0][0],snake_position[0][1]+1]
-    for i in snake_position:
-        field[i[0]][i[1]] = "■"
+    global snake_x
+    field[snake_y][snake_x] = "□"
+    snake_x +=1
+    field[snake_y][snake_x] = "■"
     printMap(field)
         
 
@@ -122,8 +116,8 @@ def generateStar():
 
 def getStar():
     for i in star_list:
-        if i == snake_position[0]:
-            star_list.remove(snake_position[0])
+        if i == [snake_y,snake_x]:
+            star_list.remove([snake_y,snake_x])
         
 def controll():
     while True:
