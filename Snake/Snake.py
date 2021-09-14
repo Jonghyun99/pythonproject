@@ -32,10 +32,10 @@ def printMap(field):
         for j in i:
             print(j, end=" ")
         print()
-    # print("별 위치 : {0}".format(star_list))
+    print("별 위치 : {0}".format(star_list))
     print("뱀 위치 : {0},{1}".format(snake_y,snake_x))
     # print(star_count)
-    print(snake_position)
+    # print(snake_position)
     print("q나 r 누를 시 초기화")
 
 #게임시작
@@ -63,7 +63,7 @@ def moveUp():
     global snake_y
     field[snake_y][snake_x] = "□"
     snake_y -=1
-    move()
+    field[snake_y][snake_x] = "■"
     printMap(field)
 
 def moveDown():
@@ -71,7 +71,7 @@ def moveDown():
     global snake_y
     field[snake_y][snake_x] = "□"
     snake_y +=1
-    move()
+    field[snake_y][snake_x] = "■"
     printMap(field)
 
 def moveLeft():
@@ -79,6 +79,7 @@ def moveLeft():
     global snake_x
     field[snake_y][snake_x] = "□"
     snake_x -=1
+    field[snake_y][snake_x] = "■"
     printMap(field)
 
 def moveRight():
@@ -86,25 +87,8 @@ def moveRight():
     global snake_x
     field[snake_y][snake_x] = "□"
     snake_x +=1
+    field[snake_y][snake_x] = "■"
     printMap(field)
-
-def move():
-    for i in snake_position:
-        if len(snake_position)==1:
-            field[snake_position[0][0]][snake_position[0][1]]="■"
-            continue
-        elif(key=='up'):
-            snake_position[i][0] -= 1
-            field[snake_position[i][0]][snake_position[i][1]]="■"
-        elif(key=='down'): 
-            snake_position[i][0] += 1
-            field[snake_position[i][0]][snake_position[i][1]]="■"
-        elif(key=='left'):
-            snake_position[i][1] -= 1
-            field[snake_position[i][0]][snake_position[i][1]]="■"
-        elif(key=='right'):
-            snake_position[i][1] += 1
-            field[snake_position[i][0]][snake_position[i][1]]="■"
         
 
 #별 생성함수
@@ -130,7 +114,6 @@ def getStar():
     for i in star_list:
         if i == [snake_y,snake_x]:
             star_list.remove([snake_y,snake_x])
-            grow()
         
 def controll():
     while True:
@@ -140,7 +123,6 @@ def controll():
                 star_count+=1
                 moveUp()
                 sleep(game_speed)
-                snake_position[0] = [snake_y, snake_x]
                 if star_count>=star_gen_cycle:
                     generateStar()
                     star_count=0
@@ -149,7 +131,6 @@ def controll():
                 star_count+=1
                 moveDown()
                 sleep(game_speed)
-                snake_position[0] = [snake_y, snake_x]
                 if star_count>=star_gen_cycle:
                     generateStar()
                     star_count=0
@@ -158,7 +139,6 @@ def controll():
                 star_count+=1
                 moveLeft()
                 sleep(game_speed)
-                snake_position[0] = [snake_y, snake_x]
                 if star_count>=star_gen_cycle:
                     generateStar()
                     star_count=0
@@ -167,7 +147,6 @@ def controll():
                 star_count+=1
                 moveRight()
                 sleep(game_speed)
-                snake_position[0] = [snake_y, snake_x]
                 if star_count>=star_gen_cycle:
                     generateStar()
                     star_count=0
@@ -183,27 +162,27 @@ def readKey():
     sleep(0.1)
     threading.Thread(target=readKey,daemon=True).start()
 
-def grow():
-    global snake_position
-    global tail_x
-    global tail_y
+# def grow():
+#     global snake_position
+#     global tail_x
+#     global tail_y
 
-    if(len(snake_position)==1):
-        tail_y=snake_y
-        tail_x=snake_x
+#     if(len(snake_position)==1):
+#         tail_y=snake_y
+#         tail_x=snake_x
     
-    if(key=='up'):
-        tail_y=snake_y+1
-        snake_position.append([tail_y,tail_x])
-    if(key=='down'):
-        tail_y=snake_y-1
-        snake_position.append([tail_y,tail_x])
-    if(key=='left'):
-        tail_y=snake_x+1
-        snake_position.append([tail_y,tail_x])
-    if(key=='right'):
-        tail_y=snake_x-1
-        snake_position.append([tail_y,tail_x])
+#     if(key=='up'):
+#         tail_y=snake_y+1
+#         snake_position.append([tail_y,tail_x])
+#     if(key=='down'):
+#         tail_y=snake_y-1
+#         snake_position.append([tail_y,tail_x])
+#     if(key=='left'):
+#         tail_y=snake_x+1
+#         snake_position.append([tail_y,tail_x])
+#     if(key=='right'):
+#         tail_y=snake_x-1
+#         snake_position.append([tail_y,tail_x])
 
     
 
