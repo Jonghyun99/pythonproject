@@ -15,7 +15,7 @@ start_position = int(filed_size/2)
 snake_y=start_position
 snake_x=start_position
 
-snake_position=[[snake_y,snake_x],[snake_y,snake_x-1],[snake_y,snake_x-2]]
+snake_position=[[snake_y,snake_x],[snake_y,snake_x],[snake_y,snake_x]]
     
 #스레드 키 입력 변수
 key=None
@@ -38,19 +38,25 @@ def printMap(field):
     print(snake_position)
     print("q나 r 누를 시 초기화")
 
-#게임시작
+#초기화
 def initGame():
     global field
     global snake_x
     global snake_y
     global star_count
-    
+    global snake_position
+    global star_list
+
+    if len(snake_position)>=3:
+        del snake_position
+    if len(star_list)>=1:
+        del star_list
+    snake_position=[[start_position,start_position],[start_position,start_position],[start_position,start_position]]
+    star_list=[]
     field = [["□" for col in range(filed_size)] for row in range(filed_size)]
     os.system('cls')
     printMap(field)
 
-    snake_x=start_position
-    snake_y=start_position
     star_count=0
 
     os.system('cls')
@@ -140,6 +146,7 @@ def controll():
                 star_count+=1
                 moveUp()
                 getStar()
+                collision()
                 sleep(game_speed)
                 if star_count>=star_gen_cycle:
                     generateStar()
@@ -149,6 +156,7 @@ def controll():
                 star_count+=1
                 moveDown()
                 getStar()
+                collision()
                 sleep(game_speed)
                 if star_count>=star_gen_cycle:
                     generateStar()
@@ -158,6 +166,7 @@ def controll():
                 star_count+=1
                 moveLeft()
                 getStar()
+                collision()
                 sleep(game_speed)
                 if star_count>=star_gen_cycle:
                     generateStar()
@@ -167,6 +176,7 @@ def controll():
                 star_count+=1
                 moveRight()
                 getStar()
+                collision()
                 sleep(game_speed)
                 if star_count>=star_gen_cycle:
                     generateStar()
@@ -200,7 +210,17 @@ def grow():
         tail_y=snake_x-1
         snake_position.append([tail_y,tail_x])
 
-    
+def gameover():
+    os.system('cls')
+    printMap(field)
+    print("***********GAMEOVER***************")
+    a = input("다시 하려면 q나 r 입력, 다른 거 입력하면 종료")
+    if a in ('q','r'):
+        game()
+
+def collision():
+    if snake_position[0] in snake_position[1:]:
+        gameover()
 
 def game():
     try:
@@ -208,12 +228,7 @@ def game():
         readKey()
         controll()
     except IndexError as e:
-        printMap(field)
-        print("***********GAMEOVER***************")
-        print(e)
-        a = input("다시 하려면 q나 r 입력, 다른 거 입력하면 종료")
-        if a in ('q','r'):
-            game()
+        gameover()
 game()
 
-      
+
