@@ -51,7 +51,6 @@ def initGame():
 
     snake_x=start_position
     snake_y=start_position
-    # snake_position=[[snake_y,snake_x],[snake_y,snake_x-1],[snake_y,snake_x-2]]
     star_count=0
 
     os.system('cls')
@@ -62,9 +61,11 @@ def initGame():
 
 def moveUp():
     os.system('cls')
-    field[snake_position[2][0]][snake_position[2][1]] = "□"
-    snake_position[2] = snake_position[1]
-    snake_position[1] = snake_position[0]
+    cnt = len(snake_position) -1
+    field[snake_position[cnt][0]][snake_position[cnt][1]] = "□"
+    while cnt>=1:
+        snake_position[cnt] = snake_position[cnt-1]
+        cnt-=1
     snake_position[0] = [snake_position[0][0]-1,snake_position[0][1]]
     for i in snake_position:
         field[i[0]][i[1]] = "■"
@@ -72,9 +73,11 @@ def moveUp():
 
 def moveDown():
     os.system('cls')
-    field[snake_position[2][0]][snake_position[2][1]] = "□"
-    snake_position[2] = snake_position[1]
-    snake_position[1] = snake_position[0]
+    cnt = len(snake_position) -1
+    field[snake_position[cnt][0]][snake_position[cnt][1]] = "□"
+    while cnt>=1:
+        snake_position[cnt] = snake_position[cnt-1]
+        cnt-=1
     snake_position[0] = [snake_position[0][0]+1,snake_position[0][1]]
     for i in snake_position:
         field[i[0]][i[1]] = "■"
@@ -82,9 +85,11 @@ def moveDown():
 
 def moveLeft():
     os.system('cls')
-    field[snake_position[2][0]][snake_position[2][1]] = "□"
-    snake_position[2] = snake_position[1]
-    snake_position[1] = snake_position[0]
+    cnt = len(snake_position) -1
+    field[snake_position[cnt][0]][snake_position[cnt][1]] = "□"
+    while cnt>=1:
+        snake_position[cnt] = snake_position[cnt-1]
+        cnt-=1
     snake_position[0] = [snake_position[0][0],snake_position[0][1]-1]
     for i in snake_position:
         field[i[0]][i[1]] = "■"
@@ -92,9 +97,11 @@ def moveLeft():
 
 def moveRight():
     os.system('cls')
-    field[snake_position[2][0]][snake_position[2][1]] = "□"
-    snake_position[2] = snake_position[1]
-    snake_position[1] = snake_position[0]
+    cnt = len(snake_position) -1
+    field[snake_position[cnt][0]][snake_position[cnt][1]] = "□"
+    while cnt>=1:
+        snake_position[cnt] = snake_position[cnt-1]
+        cnt-=1
     snake_position[0] = [snake_position[0][0],snake_position[0][1]+1]
     for i in snake_position:
         field[i[0]][i[1]] = "■"
@@ -123,6 +130,7 @@ def generateStar():
 def getStar():
     for i in star_list:
         if i == snake_position[0]:
+            grow()
             star_list.remove(snake_position[0])
         
 def controll():
@@ -172,27 +180,23 @@ def readKey():
     sleep(0.1)
     threading.Thread(target=readKey,daemon=True).start()
 
-# def grow():
-#     global snake_position
-#     global tail_x
-#     global tail_y
-
-#     if(len(snake_position)==1):
-#         tail_y=snake_y
-#         tail_x=snake_x
+def grow():
+    global snake_position
+    tail_y=snake_position[0][0]
+    tail_x=snake_position[0][1]
     
-#     if(key=='up'):
-#         tail_y=snake_y+1
-#         snake_position.append([tail_y,tail_x])
-#     if(key=='down'):
-#         tail_y=snake_y-1
-#         snake_position.append([tail_y,tail_x])
-#     if(key=='left'):
-#         tail_y=snake_x+1
-#         snake_position.append([tail_y,tail_x])
-#     if(key=='right'):
-#         tail_y=snake_x-1
-#         snake_position.append([tail_y,tail_x])
+    if(key=='up'):
+        tail_y=snake_y+1
+        snake_position.append([tail_y,tail_x])
+    if(key=='down'):
+        tail_y=snake_y-1
+        snake_position.append([tail_y,tail_x])
+    if(key=='left'):
+        tail_y=snake_x+1
+        snake_position.append([tail_y,tail_x])
+    if(key=='right'):
+        tail_y=snake_x-1
+        snake_position.append([tail_y,tail_x])
 
     
 

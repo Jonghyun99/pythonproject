@@ -13,7 +13,7 @@ field = [["□" for col in range(11)] for row in range(11)]
 test=[[1,1],[2,2],[3,3]]
 
 test[0] = [0,2]
-print(test)
+print(len(test))
 # cnt=0
 
 # for i in test:
