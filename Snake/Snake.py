@@ -35,7 +35,7 @@ def printMap(field):
     print("별 위치 : {0}".format(star_list))
     print("뱀 위치 : {0},{1}".format(snake_y,snake_x))
     # print(star_count)
-    # print(snake_position)
+    print(snake_position)
     print("q나 r 누를 시 초기화")
 
 #게임시작
@@ -51,10 +51,14 @@ def initGame():
 
     snake_x=start_position
     snake_y=start_position
+    snake_position=[[snake_y,snake_x],[snake_y,snake_x-1],[snake_y,snake_x-2]]
     star_count=0
 
+    snake_position.append([snake_y,snake_x-3])
+
     os.system('cls')
-    field[start_position][start_position] = "■"
+    for i in snake_position:
+        field[i[0]][i[1]] = "■"
     printMap(field)
     print("========PushAnyArrowKey========")
 
