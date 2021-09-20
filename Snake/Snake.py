@@ -41,8 +41,8 @@ def printMap(field):
     global tail_y
     global tail_x
         
-    tail_y=snake_position[1][0]
-    tail_x=snake_position[1][1]
+    tail_y=snake_position[len(snake_position) -1][0]
+    tail_x=snake_position[len(snake_position) -1][1]
 
 
     print("꼬리 Y:{0} ".format(tail_y))
