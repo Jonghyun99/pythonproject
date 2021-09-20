@@ -27,14 +27,26 @@ star_count = 0
 star_gen_cycle=5
 star_list=[]
 
+
 def printMap(field):
     for i in field:
         for j in i:
             print(j, end=" ")
         print()
-    print("별 위치 : {0}".format(star_list))
-    print("뱀 위치 : {0},{1}".format(snake_y,snake_x))
+    # print("별 위치 : {0}".format(star_list))
+    # print("뱀 위치 : {0},{1}".format(snake_y,snake_x))
     # print(star_count)
+    # print("현재 키: {0}".format(key))
+    global snake_position
+    global tail_y
+    global tail_x
+        
+    tail_y=snake_position[1][0]
+    tail_x=snake_position[1][1]
+
+
+    print("꼬리 Y:{0} ".format(tail_y))
+    print("꼬리 X:{0} ".format(tail_x))
     print(snake_position)
     print("q나 r 누를 시 초기화")
 
@@ -63,7 +75,7 @@ def initGame():
     for i in snake_position:
         field[i[0]][i[1]] = "■"
     printMap(field)
-    print("========PushAnyArrowKey========")
+    print("========PushAnyArrow========")
 
 def moveUp():
     os.system('cls')
@@ -193,10 +205,9 @@ def readKey():
     threading.Thread(target=readKey,daemon=True).start()
 
 def grow():
-    global snake_position
-    tail_y=snake_position[0][0]
-    tail_x=snake_position[0][1]
-    
+    global tail_y
+    global tail_x
+
     if(key=='up'):
         tail_y=snake_y+1
         snake_position.append([tail_y,tail_x])
@@ -204,10 +215,10 @@ def grow():
         tail_y=snake_y-1
         snake_position.append([tail_y,tail_x])
     if(key=='left'):
-        tail_y=snake_x+1
+        tail_x=snake_x+1
         snake_position.append([tail_y,tail_x])
     if(key=='right'):
-        tail_y=snake_x-1
+        tail_x=snake_x-1
         snake_position.append([tail_y,tail_x])
 
 def gameover():
