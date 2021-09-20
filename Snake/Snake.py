@@ -20,8 +20,10 @@ snake_position=[[snake_y,snake_x],[snake_y,snake_x],[snake_y,snake_x]]
 #스레드 키 입력 변수
 key=None
 
-game_speed = 0.2
+game_speed = 0.1
 star_count = 0
+
+game_speed = float(input("1~3 중 속도 입력 ")) * 0.1
 
 #별 생성 주기
 star_gen_cycle=5
