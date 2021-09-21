@@ -140,10 +140,12 @@ def generateStar():
             star_x = random.randrange(0,filed_size)
             star_y = random.randrange(0,filed_size)
         field[star_y][star_x] = "★"
+        os.system('cls')
         printMap(field)
         star_list.append([star_y,star_x])
     else:
         field[star_y][star_x] = "★"
+        os.system('cls')
         printMap(field)
         star_list.append([star_y,star_x])
 
